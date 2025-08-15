@@ -76,68 +76,32 @@ By using Terraform modules, we avoid code duplication and can easily manage reso
 
 
 
-graph TD
-
-&nbsp;   A\[main.tf] --> B1\[dev-app module call]
-
-&nbsp;   A --> B2\[staging-app module call]
-
-&nbsp;   A --> B3\[prod-app module call]
-
-
-
-&nbsp;   B1 --> M\[modules/aws\_infra]
-
-&nbsp;   B2 --> M
-
-&nbsp;   B3 --> M
-
-
-
-&nbsp;   M --> C1\[S3 Bucket]
-
-&nbsp;   M --> C2\[EC2 Instance(s) + Security Group + Key Pair]
-
-&nbsp;   M --> C3\[DynamoDB Table]
-
-
-
-&nbsp;   subgraph Dev Environment
-
-&nbsp;       C1a\[S3 Bucket - dev]
-
-&nbsp;       C2a\[1 x t2.micro EC2]
-
-&nbsp;       C3a\[DynamoDB Table - dev]
-
-&nbsp;   end
-
-
-
-&nbsp;   subgraph Staging Environment
-
-&nbsp;       C1b\[S3 Bucket - staging]
-
-&nbsp;       C2b\[2 x t2.medium EC2]
-
-&nbsp;       C3b\[DynamoDB Table - staging]
-
-&nbsp;   end
-
-
-
-&nbsp;   subgraph Production Environment
-
-&nbsp;       C1c\[S3 Bucket - prod]
-
-&nbsp;       C2c\[3 x t2.large EC2]
-
-&nbsp;       C3c\[DynamoDB Table - prod]
-
-&nbsp;   end
+           +----------------------+
+           |      main.tf         |
+           +----------------------+
+            /         |         \
+           /          |          \
+          v           v           v
++----------------+ +----------------+ +----------------+
+|  dev-app       | | staging-app    | | prod-app       |
+| (module call)  | | (module call)  | | (module call)  |
++--------+-------+ +--------+-------+ +--------+-------+
+         |                  |                  |
+         v                  v                  v
+   +-----------------------------------------------+
+   |          modules/aws_infra                    |
+   |   - my_buckets.tf   (S3 Bucket)               |
+   |   - my_instance.tf  (EC2, SG, KeyPair)        |
+   |   - my_table.tf     (DynamoDB Table)          |
+   +-----------------------------------------------+
+         |                  |                  |
+         v                  v                  v
+  AWS Resources:      AWS Resources:     AWS Resources:
+  - 1 t2.micro EC2    - 2 t2.medium EC2  - 3 t2.large EC2
+  - S3 bucket         - S3 bucket        - S3 bucket
+  - DynamoDB table    - DynamoDB table   - DynamoDB table
 
 ---
-
 
 
 \## 🚀 Features
