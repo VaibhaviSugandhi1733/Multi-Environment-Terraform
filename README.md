@@ -36,7 +36,7 @@ By using Terraform modules, we avoid code duplication and can easily manage reso
 
 ## 📊 Architecture Diagram
 
-![Architecture Diagram](C:\Users\ADMIN\OneDrive\Desktop\multienv.png)
+![Architecture Diagram](multienv.png)
 
 ---
 
