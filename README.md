@@ -33,40 +33,11 @@ By using Terraform modules, we avoid code duplication and can easily manage reso
 
 ---
 
+
 ## 📊 Architecture Diagram
 
-```mermaid
-graph TD
-    A["main.tf"] --> B1["dev-app module call"]
-    A --> B2["staging-app module call"]
-    A --> B3["prod-app module call"]
+![Architecture Diagram](C:\Users\ADMIN\OneDrive\Desktop\multienv.png)
 
-    B1 --> M["modules/aws_infra"]
-    B2 --> M
-    B3 --> M
-
-    M --> C1["S3 Bucket"]
-    M --> C2["EC2 Instance(s) + Security Group + Key Pair"]
-    M --> C3["DynamoDB Table"]
-
-    subgraph "Dev Environment"
-        C1a["S3 Bucket - dev"]
-        C2a["1 x t2.micro EC2"]
-        C3a["DynamoDB Table - dev"]
-    end
-
-    subgraph "Staging Environment"
-        C1b["S3 Bucket - staging"]
-        C2b["2 x t2.medium EC2"]
-        C3b["DynamoDB Table - staging"]
-    end
-
-    subgraph "Production Environment"
-        C1c["S3 Bucket - prod"]
-        C2c["3 x t2.large EC2"]
-        C3c["DynamoDB Table - prod"]
-    end
-```
 ---
 
 ## 🚀 Features
